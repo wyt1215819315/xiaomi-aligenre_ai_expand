@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oldwu.dao.SystemLogDao">
+  <resultMap id="BaseResultMap" type="com.oldwu.entity.SystemLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="receive_text" jdbcType="VARCHAR" property="receiveText" />
+    <result column="receive_whole" jdbcType="VARCHAR" property="receiveWhole" />
+    <result column="send_text" jdbcType="VARCHAR" property="sendText" />
+    <result column="send_whole" jdbcType="VARCHAR" property="sendWhole" />
+    <result column="userId" jdbcType="VARCHAR" property="userid" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="other" jdbcType="VARCHAR" property="other" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, receive_text, receive_whole, send_text, send_whole, userId, `type`, `date`, other
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from system_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from system_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.oldwu.entity.SystemLog" useGeneratedKeys="true">
+    insert into system_log (receive_text, receive_whole, send_text, 
+      send_whole, userId, `type`, 
+      `date`, other)
+    values (#{receiveText,jdbcType=VARCHAR}, #{receiveWhole,jdbcType=VARCHAR}, #{sendText,jdbcType=VARCHAR}, 
+      #{sendWhole,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{date,jdbcType=TIMESTAMP}, #{other,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.oldwu.entity.SystemLog" useGeneratedKeys="true">
+    insert into system_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="receiveText != null">
+        receive_text,
+      </if>
+      <if test="receiveWhole != null">
+        receive_whole,
+      </if>
+      <if test="sendText != null">
+        send_text,
+      </if>
+      <if test="sendWhole != null">
+        send_whole,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="date != null">
+        `date`,
+      </if>
+      <if test="other != null">
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="receiveText != null">
+        #{receiveText,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveWhole != null">
+        #{receiveWhole,jdbcType=VARCHAR},
+      </if>
+      <if test="sendText != null">
+        #{sendText,jdbcType=VARCHAR},
+      </if>
+      <if test="sendWhole != null">
+        #{sendWhole,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="other != null">
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oldwu.entity.SystemLog">
+    update system_log
+    <set>
+      <if test="receiveText != null">
+        receive_text = #{receiveText,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveWhole != null">
+        receive_whole = #{receiveWhole,jdbcType=VARCHAR},
+      </if>
+      <if test="sendText != null">
+        send_text = #{sendText,jdbcType=VARCHAR},
+      </if>
+      <if test="sendWhole != null">
+        send_whole = #{sendWhole,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        `date` = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="other != null">
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oldwu.entity.SystemLog">
+    update system_log
+    set receive_text = #{receiveText,jdbcType=VARCHAR},
+      receive_whole = #{receiveWhole,jdbcType=VARCHAR},
+      send_text = #{sendText,jdbcType=VARCHAR},
+      send_whole = #{sendWhole,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=VARCHAR},
+      `date` = #{date,jdbcType=TIMESTAMP},
+      other = #{other,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

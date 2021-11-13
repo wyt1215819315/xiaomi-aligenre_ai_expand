@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oldwu.genshin.dao.GenshinAccountDao">
+    <resultMap id="BaseResultMap" type="com.oldwu.genshin.enitty.GenshinAccount">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="record_id" jdbcType="INTEGER" property="recordId"/>
+        <result column="uid" jdbcType="VARCHAR" property="uid"/>
+        <result column="cookie" jdbcType="VARCHAR" property="cookie"/>
+        <result column="server" jdbcType="VARCHAR" property="server"/>
+        <result column="other" jdbcType="VARCHAR" property="other"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, record_id, `uid`, cookie, server, other
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from genshin_cookie
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="queryGenshinAccount" resultType="com.oldwu.genshin.enitty.GenshinAccount">
+        SELECT
+        g.*
+        FROM
+        system_record AS sys
+        INNER JOIN
+        genshin_cookie AS g
+        ON
+        sys.id = g.record_id
+        WHERE
+        <if test="xiaomi != null">
+            sys.xiaomi_id = #{xiaomi}
+        </if>
+        <if test="aligenre != null">
+            sys.aligenre_id = #{aligenre}
+        </if>
+        LIMIT 1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from genshin_cookie
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.oldwu.genshin.enitty.GenshinAccount"
+            useGeneratedKeys="true">
+        insert into genshin_cookie (record_id, `uid`, cookie,
+                                    server, other)
+        values (#{recordId,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{cookie,jdbcType=VARCHAR},
+                #{server,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.oldwu.genshin.enitty.GenshinAccount"
+            useGeneratedKeys="true">
+        insert into genshin_cookie
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">
+                record_id,
+            </if>
+            <if test="uid != null">
+                `uid`,
+            </if>
+            <if test="cookie != null">
+                cookie,
+            </if>
+            <if test="server != null">
+                server,
+            </if>
+            <if test="other != null">
+                other,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">
+                #{recordId,jdbcType=INTEGER},
+            </if>
+            <if test="uid != null">
+                #{uid,jdbcType=VARCHAR},
+            </if>
+            <if test="cookie != null">
+                #{cookie,jdbcType=VARCHAR},
+            </if>
+            <if test="server != null">
+                #{server,jdbcType=VARCHAR},
+            </if>
+            <if test="other != null">
+                #{other,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.oldwu.genshin.enitty.GenshinAccount">
+        update genshin_cookie
+        <set>
+            <if test="recordId != null">
+                record_id = #{recordId,jdbcType=INTEGER},
+            </if>
+            <if test="uid != null">
+                `uid` = #{uid,jdbcType=VARCHAR},
+            </if>
+            <if test="cookie != null">
+                cookie = #{cookie,jdbcType=VARCHAR},
+            </if>
+            <if test="server != null">
+                server = #{server,jdbcType=VARCHAR},
+            </if>
+            <if test="other != null">
+                other = #{other,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.oldwu.genshin.enitty.GenshinAccount">
+        update genshin_cookie
+        set record_id = #{recordId,jdbcType=INTEGER},
+            `uid`     = #{uid,jdbcType=VARCHAR},
+            cookie    = #{cookie,jdbcType=VARCHAR},
+            server    = #{server,jdbcType=VARCHAR},
+            other     = #{other,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
