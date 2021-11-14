@@ -31,7 +31,7 @@ public class NeteaseMusicUtil {
 
     public static void main(String[] args) {
 //5238992
-        String playUrl = getPlayUrl("86357",cookie);
+        String playUrl = getPlayUrl("86357", cookie);
         System.out.println(playUrl);
 //        JSONArray test = searchMusicReturnResultIds("生生世世爱");
 //        System.out.println(test);
@@ -39,11 +39,12 @@ public class NeteaseMusicUtil {
 
     /**
      * 根据id匹配曲图
+     *
      * @param musicId
      * @return
      */
-    public static Map<String,String> getImageAndSoOnById(String musicId) {
-        Map<String,String> map = new HashMap<>();
+    public static Map<String, String> getImageAndSoOnById(String musicId) {
+        Map<String, String> map = new HashMap<>();
         Map<String, String> querys = new HashMap<>();
         querys.put("id", musicId);
         querys.put("type", "song");
@@ -51,11 +52,11 @@ public class NeteaseMusicUtil {
         try {
             HttpResponse httpResponse = HttpUtils.doGet(imageUrl, null, HttpUtils.getHeaders(), querys);
             JSONObject json = HttpUtils.getJson(httpResponse);
-            map.put("cover",json.getString("cover"));
-            map.put("name",json.getString("name"));
-            map.put("mp3url",json.getString("mp3url"));
-            map.put("song_id",json.getString("song_id"));
-            map.put("author",json.getString("author"));
+            map.put("cover", json.getString("cover"));
+            map.put("name", json.getString("name"));
+            map.put("mp3url", json.getString("mp3url"));
+            map.put("song_id", json.getString("song_id"));
+            map.put("author", json.getString("author"));
             return map;
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -65,6 +66,7 @@ public class NeteaseMusicUtil {
 
     /**
      * 输出排版好的搜索结果
+     *
      * @param musicName
      * @return
      */
@@ -74,17 +76,17 @@ public class NeteaseMusicUtil {
         StringBuilder stringBuilder = new StringBuilder("-------网易云解析-------\n");
         for (int i = 0; i < songs.size(); i++) {
             JSONObject song = songs.getJSONObject(i);
-            String songName = song.getString("name") +"_"+ song.getJSONObject("album").getString("name");
-            stringBuilder.append(i+1).append(". ").append(songName);
+            String songName = song.getString("name") + "_" + song.getJSONObject("album").getString("name");
+            stringBuilder.append(i + 1).append(". ").append(songName);
             JSONArray alias = song.getJSONObject("album").getJSONArray("alia");
-            if (alias != null && alias.size() > 0){
+            if (alias != null && alias.size() > 0) {
                 stringBuilder.append("(").append(alias.get(0)).append(")");
             }
             JSONArray artists = song.getJSONArray("artists");
             stringBuilder.append(" - ");
             for (int i1 = 0; i1 < artists.size(); i1++) {
                 stringBuilder.append(artists.getJSONObject(i1).getString("name"));
-                if (i1 != artists.size()-1){
+                if (i1 != artists.size() - 1) {
                     stringBuilder.append("|");
                 }
             }
@@ -95,6 +97,7 @@ public class NeteaseMusicUtil {
 
     /**
      * 输出搜索到的歌曲id数组
+     *
      * @param musicName
      * @return
      */
@@ -105,33 +108,35 @@ public class NeteaseMusicUtil {
         for (int i = 0; i < songs.size(); i++) {
             JSONObject song = songs.getJSONObject(i);
             JSONObject info = new JSONObject();
-            info.put("id",song.getString("id"));
-            String songName = song.getString("name") +"_"+ song.getJSONObject("album").getString("name");
+            info.put("id", song.getString("id"));
+            String songName = song.getString("name");
+//            + "_" + song.getJSONObject("album").getString("name")
             JSONArray alias = song.getJSONObject("album").getJSONArray("alia");
-            if (alias != null && alias.size() > 0){
-                info.put("content",alias.get(0));
+            if (alias != null && alias.size() > 0) {
+                info.put("content", alias.get(0));
             }
             JSONArray artists = song.getJSONArray("artists");
             String title = songName + " - ";
             for (int i1 = 0; i1 < artists.size(); i1++) {
                 title = title + artists.getJSONObject(i1).getString("name");
-                if (i1 != artists.size()-1){
+                if (i1 != artists.size() - 1) {
                     title = title + "|";
                 }
             }
-            info.put("title",title);
-            infos.set(i,info);
+            info.put("title", title);
+            infos.set(i, info);
         }
         return infos;
     }
 
     /**
      * 输出排版好的搜索结果和一个歌曲id数组
+     *
      * @param musicName
      * @return
      */
-    public static Map<String,String> searchMusicReturnResultBot(String musicName) {
-        Map<String,String> map = new HashMap<>();
+    public static Map<String, String> searchMusicReturnResultBot(String musicName) {
+        Map<String, String> map = new HashMap<>();
         JSONObject jsonObject = searchMusic(musicName, limit);
         JSONArray songs = jsonObject.getJSONObject("result").getJSONArray("songs");
         JSONArray infos = new JSONArray();
@@ -139,13 +144,13 @@ public class NeteaseMusicUtil {
         for (int i = 0; i < songs.size(); i++) {
             JSONObject song = songs.getJSONObject(i);
             JSONObject info = new JSONObject();
-            info.put("id",song.getString("id"));
-            String songName = song.getString("name") +"_"+ song.getJSONObject("album").getString("name");
-            stringBuilder.append(i+1).append(". ").append(songName);
+            info.put("id", song.getString("id"));
+            String songName = song.getString("name") + "_" + song.getJSONObject("album").getString("name");
+            stringBuilder.append(i + 1).append(". ").append(songName);
             JSONArray alias = song.getJSONObject("album").getJSONArray("alia");
-            if (alias != null && alias.size() > 0){
+            if (alias != null && alias.size() > 0) {
                 stringBuilder.append("(").append(alias.get(0)).append(")");
-                info.put("content",alias.get(0));
+                info.put("content", alias.get(0));
             }
             JSONArray artists = song.getJSONArray("artists");
             String title = songName + " - ";
@@ -153,22 +158,23 @@ public class NeteaseMusicUtil {
             for (int i1 = 0; i1 < artists.size(); i1++) {
                 stringBuilder.append(artists.getJSONObject(i1).getString("name"));
                 title = title + artists.getJSONObject(i1).getString("name");
-                if (i1 != artists.size()-1){
+                if (i1 != artists.size() - 1) {
                     stringBuilder.append("|");
                     title = title + "|";
                 }
             }
-            info.put("title",title);
-            infos.set(i,info);
+            info.put("title", title);
+            infos.set(i, info);
             stringBuilder.append("\n");
         }
-        map.put("str",stringBuilder.toString());
+        map.put("str", stringBuilder.toString());
         map.put("infos", infos.toJSONString());
         return map;
     }
 
     /**
      * 搜索音乐
+     *
      * @param musicName
      * @param limit
      * @return
@@ -191,10 +197,11 @@ public class NeteaseMusicUtil {
 
     /**
      * 根据id获取播放链接
+     *
      * @param musicId
      * @return
      */
-    public static String getPlayUrl(String musicId,String cookie) {
+    public static String getPlayUrl(String musicId, String cookie) {
         JSONObject connect = connect(musicId, cookie);
         if (connect == null) {
             return null;
