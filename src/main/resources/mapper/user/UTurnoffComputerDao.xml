@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oldwu.dao.UTurnoffComputerDao">
+    <resultMap id="BaseResultMap" type="com.oldwu.entity.UTurnoffComputer">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="record_id" jdbcType="INTEGER" property="recordId"/>
+        <result column="secert_key" jdbcType="VARCHAR" property="secertKey"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="other" jdbcType="VARCHAR" property="other"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, record_id, secert_key, `status`, update_time, other
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from u_turnoff_computer
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectBySecret" resultType="com.oldwu.entity.UTurnoffComputer">
+        select
+        <include refid="Base_Column_List"/>
+        from u_turnoff_computer
+        where secert_key = #{secret}
+    </select>
+    <select id="selectByRecordId" resultType="com.oldwu.entity.UTurnoffComputer">
+        select
+        <include refid="Base_Column_List"/>
+        from u_turnoff_computer
+        where record_id = #{recordId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from u_turnoff_computer
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.oldwu.entity.UTurnoffComputer"
+            useGeneratedKeys="true">
+        insert into u_turnoff_computer (record_id, secert_key, `status`,
+                                        update_time, other)
+        values (#{recordId,jdbcType=INTEGER}, #{secertKey,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=TIMESTAMP}, #{other,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.oldwu.entity.UTurnoffComputer"
+            useGeneratedKeys="true">
+        insert into u_turnoff_computer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">
+                record_id,
+            </if>
+            <if test="secertKey != null">
+                secert_key,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="other != null">
+                other,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">
+                #{recordId,jdbcType=INTEGER},
+            </if>
+            <if test="secertKey != null">
+                #{secertKey,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="other != null">
+                #{other,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.oldwu.entity.UTurnoffComputer">
+        update u_turnoff_computer
+        <set>
+            <if test="recordId != null">
+                record_id = #{recordId,jdbcType=INTEGER},
+            </if>
+            <if test="secertKey != null">
+                secert_key = #{secertKey,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="other != null">
+                other = #{other,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.oldwu.entity.UTurnoffComputer">
+        update u_turnoff_computer
+        set record_id   = #{recordId,jdbcType=INTEGER},
+            secert_key  = #{secertKey,jdbcType=VARCHAR},
+            `status`    = #{status,jdbcType=VARCHAR},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            other       = #{other,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

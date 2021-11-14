@@ -8,8 +8,10 @@ import com.oldwu.genshin.service.GenshinService;
 import com.oldwu.service.AsyncService;
 import com.oldwu.service.BaseService;
 import com.oldwu.service.NetMusicService;
+import com.oldwu.service.UService;
 import com.oldwu.word.Words;
 import com.xiaomi.model.receive.ReceiveInfo;
+import com.xiaomi.model.receive.User;
 import com.xiaomi.model.send.SendInfo;
 import com.xiaomi.util.HelpUtils;
 import com.xiaomi.util.WordsUtil;
@@ -34,6 +36,9 @@ public class BaseServiceImpl implements BaseService {
 
     @Autowired
     private AsyncService asyncService;
+
+    @Autowired
+    private UService uService;
 
     @Override
     public SendInfo xiaomiReply(ReceiveInfo receiveInfo) {
@@ -62,7 +67,10 @@ public class BaseServiceImpl implements BaseService {
         } else if (WordsUtil.checkWords(queryMessage, Words.GENSHIN)) {
             //原神体力等信息查询
             replyStr = genshinService.getDailyNote(user_id, "xiaomi", "all");
-        } else {
+        }else if (WordsUtil.checkWords(queryMessage,Words.CLOSE_COMPUTER)){
+            replyStr = uService.sendTurnOffComputer(user_id,"xiaomi");
+        }
+        else {
             return XiaomiResult.cantUnderstand();
         }
         return XiaomiResult.sendMsg(replyStr);

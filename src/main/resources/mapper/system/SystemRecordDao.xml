@@ -1,98 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oldwu.dao.SystemRecordDao">
-  <resultMap id="BaseResultMap" type="com.oldwu.entity.SystemRecord">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="xiaomi_id" jdbcType="VARCHAR" property="xiaomiId" />
-    <result column="aligenre_id" jdbcType="VARCHAR" property="aligenreId" />
-    <result column="add_date" jdbcType="TIMESTAMP" property="addDate" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="other" jdbcType="VARCHAR" property="other" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, xiaomi_id, aligenre_id, add_date, `type`, other
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from system_record
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from system_record
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.oldwu.entity.SystemRecord" useGeneratedKeys="true">
-    insert into system_record (xiaomi_id, aligenre_id, add_date, 
-      `type`, other)
-    values (#{xiaomiId,jdbcType=VARCHAR}, #{aligenreId,jdbcType=VARCHAR}, #{addDate,jdbcType=TIMESTAMP}, 
-      #{type,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.oldwu.entity.SystemRecord" useGeneratedKeys="true">
-    insert into system_record
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="xiaomiId != null">
-        xiaomi_id,
-      </if>
-      <if test="aligenreId != null">
-        aligenre_id,
-      </if>
-      <if test="addDate != null">
-        add_date,
-      </if>
-      <if test="type != null">
-        `type`,
-      </if>
-      <if test="other != null">
-        other,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="xiaomiId != null">
-        #{xiaomiId,jdbcType=VARCHAR},
-      </if>
-      <if test="aligenreId != null">
-        #{aligenreId,jdbcType=VARCHAR},
-      </if>
-      <if test="addDate != null">
-        #{addDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="other != null">
-        #{other,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.oldwu.entity.SystemRecord">
-    update system_record
-    <set>
-      <if test="xiaomiId != null">
-        xiaomi_id = #{xiaomiId,jdbcType=VARCHAR},
-      </if>
-      <if test="aligenreId != null">
-        aligenre_id = #{aligenreId,jdbcType=VARCHAR},
-      </if>
-      <if test="addDate != null">
-        add_date = #{addDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="type != null">
-        `type` = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="other != null">
-        other = #{other,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.oldwu.entity.SystemRecord">
-    update system_record
-    set xiaomi_id = #{xiaomiId,jdbcType=VARCHAR},
-      aligenre_id = #{aligenreId,jdbcType=VARCHAR},
-      add_date = #{addDate,jdbcType=TIMESTAMP},
-      `type` = #{type,jdbcType=VARCHAR},
-      other = #{other,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <resultMap id="BaseResultMap" type="com.oldwu.entity.SystemRecord">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="xiaomi_id" jdbcType="VARCHAR" property="xiaomiId"/>
+        <result column="aligenre_id" jdbcType="VARCHAR" property="aligenreId"/>
+        <result column="add_date" jdbcType="TIMESTAMP" property="addDate"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="other" jdbcType="VARCHAR" property="other"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, xiaomi_id, aligenre_id, add_date, `type`, other
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_record
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByOnlyId" resultType="com.oldwu.entity.SystemRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from system_record
+        <where>
+            <if test="type == 'xiaomi'">
+                xiaomi_id = #{id}
+            </if>
+            <if test="type == 'aligenre'">
+                aligenre_id = #{id}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from system_record
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.oldwu.entity.SystemRecord"
+            useGeneratedKeys="true">
+        insert into system_record (xiaomi_id, aligenre_id, add_date,
+                                   `type`, other)
+        values (#{xiaomiId,jdbcType=VARCHAR}, #{aligenreId,jdbcType=VARCHAR}, #{addDate,jdbcType=TIMESTAMP},
+                #{type,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.oldwu.entity.SystemRecord"
+            useGeneratedKeys="true">
+        insert into system_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xiaomiId != null">
+                xiaomi_id,
+            </if>
+            <if test="aligenreId != null">
+                aligenre_id,
+            </if>
+            <if test="addDate != null">
+                add_date,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="other != null">
+                other,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="xiaomiId != null">
+                #{xiaomiId,jdbcType=VARCHAR},
+            </if>
+            <if test="aligenreId != null">
+                #{aligenreId,jdbcType=VARCHAR},
+            </if>
+            <if test="addDate != null">
+                #{addDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="other != null">
+                #{other,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.oldwu.entity.SystemRecord">
+        update system_record
+        <set>
+            <if test="xiaomiId != null">
+                xiaomi_id = #{xiaomiId,jdbcType=VARCHAR},
+            </if>
+            <if test="aligenreId != null">
+                aligenre_id = #{aligenreId,jdbcType=VARCHAR},
+            </if>
+            <if test="addDate != null">
+                add_date = #{addDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                `type` = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="other != null">
+                other = #{other,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.oldwu.entity.SystemRecord">
+        update system_record
+        set xiaomi_id   = #{xiaomiId,jdbcType=VARCHAR},
+            aligenre_id = #{aligenreId,jdbcType=VARCHAR},
+            add_date    = #{addDate,jdbcType=TIMESTAMP},
+            `type`      = #{type,jdbcType=VARCHAR},
+            other       = #{other,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

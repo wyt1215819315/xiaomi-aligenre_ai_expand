@@ -8,6 +8,7 @@ public class Words {
     public static final String[] GENSHIN_POWER = {"体力","树脂"};
     public static final String[] GENSHIN = {"原神","原声","元神"};
     public static final String[] ENTER_ROBOT = {"无敌机器人"};
+    public static final String[] CLOSE_COMPUTER = {"关闭电脑","电脑关机","关掉电脑","关闭我的电脑"};
 
     /**
      * 网易云
@@ -24,6 +25,12 @@ public class Words {
     public static final String NETMUSIC_SEARCH_ERROR = "歌曲链接获取失败！";
     public static final String NETMUSIC_SUCCESS = "让小爱和你一起听%s吧！";
     public static final String NETMUSIC_NULL_MUSIC = "小爱没有搜索到有关%s的歌曲哦";
+
+    /**
+     * 关闭电脑
+     */
+    public static final String SEND_TURNOFF_COMPUTER = "好的，关机指令已经发送";
+    public static final String SEND_TURNOFF_COMPUTER_NOT_BAND = "系统错误，没有找到绑定的信息";
 
 
     /**
