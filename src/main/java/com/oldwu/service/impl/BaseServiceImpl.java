@@ -52,6 +52,10 @@ public class BaseServiceImpl implements BaseService {
         }
         //首先匹配正则
         Map<String, Object> map;
+        if ((boolean)((map = WordsUtil.checkWordsRegx(queryMessage, Words.REGX_NETMUSIC_MY_LOVE)).get("flag"))) {
+            //网易云播放歌单
+            return netMusicService.getSongsInMyLove();
+        }
         if ((boolean)((map = WordsUtil.checkWordsRegx(queryMessage, Words.REGX_NETMUSIC)).get("flag"))) {
             //网易云搜索歌曲
             List<String> list = (List<String>) map.get("list");

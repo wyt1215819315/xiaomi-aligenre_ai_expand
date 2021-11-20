@@ -13,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NetMusicServiceImpl implements NetMusicService {
 
@@ -37,5 +39,15 @@ public class NetMusicServiceImpl implements NetMusicService {
             return XiaomiResult.sendMsg(Words.NETMUSIC_SEARCH_ERROR);
         }
         return XiaomiResult.sendVoice(url,String.format(Words.NETMUSIC_SUCCESS,jsonObject.getString("title")));
+    }
+
+    @Override
+    public SendInfo getSongsInMyLove() {
+        JSONArray mList = new JSONArray();
+        mList.add("2208571686");
+        String netmusic_cookie = configDao.selectByKey("netmusic_cookie").getValue();
+        String netmusic_csrf = configDao.selectByKey("netmusic_csrf").getValue();
+        List<String> playUrls = NeteaseMusicUtil.getPlayUrls(mList, netmusic_cookie, netmusic_csrf);
+        return XiaomiResult.sendVoices(playUrls,Words.NETMUSIC_PLAY_LIST);
     }
 }

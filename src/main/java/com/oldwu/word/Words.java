@@ -20,11 +20,18 @@ public class Words {
             "我想听([\\s\\S]+)[的歌]*",
             "来一首([\\s\\S]+)[的歌]*",
     };
+    public static final String[] REGX_NETMUSIC_MY_LOVE = {
+            "播放我喜欢的",
+            "播放(歌曲|音乐)",
+            "我[想要]听歌",
+            "来点音乐",
+    };
     public static final String NETMUSIC_CANT_UNDERSTAND = "小爱没有识别到你想搜索的歌曲哦";
     public static final String NETMUSIC_NO_COOKIE = "服务端没有配置cookie，无法获取歌曲链接";
     public static final String NETMUSIC_SEARCH_ERROR = "歌曲链接获取失败！";
     public static final String NETMUSIC_SUCCESS = "让小爱和你一起听%s吧！";
     public static final String NETMUSIC_NULL_MUSIC = "小爱没有搜索到有关%s的歌曲哦";
+    public static final String NETMUSIC_PLAY_LIST = "好的，为你播放你的歌单";
 
     /**
      * 关闭电脑

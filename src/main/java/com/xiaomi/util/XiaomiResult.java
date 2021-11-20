@@ -62,6 +62,32 @@ public class XiaomiResult {
         return sendInfo;
     }
 
+    public static SendInfo sendVoices(List<String> urls,String msg) {
+        SendInfo sendInfo = new SendInfo();
+        Response response = new Response();
+        if (urls.size() == 0 && StringUtils.isEmpty(msg)){
+            return sendMsg("系统错误，没有接收到任何信息字段！");
+        }
+        AudioItem audioItem = null;
+        TTSItem ttsItem = null;
+        List<Directive> directives = new ArrayList<>();
+        if (!StringUtils.isEmpty(msg)){
+            ttsItem = buildTTSItem(msg);
+            Directive directive = buildDirective(DirectiveType.TTS,null,ttsItem);
+            directives.add(directive);
+        }
+        for (String url : urls) {
+            if (!StringUtils.isEmpty(url)){
+                audioItem = buildAudioItem(url);
+                Directive directive = buildDirective(DirectiveType.AUDIO,audioItem,null);
+                directives.add(directive);
+            }
+        }
+        response.setDirectives(directives);
+        sendInfo.setResponse(response);
+        return sendInfo;
+    }
+
     public static AudioItem buildAudioItem(String url){
         AudioItem audioItem = new AudioItem();
         AudioStream audioStream = new AudioStream();
