@@ -4,7 +4,7 @@ import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.alibaba.da.coin.ide.spi.trans.MetaFormat;
-import com.aligenre.util.AligenreResult;
+import com.aligenie.util.AligenreResult;
 import com.oldwu.service.BaseService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

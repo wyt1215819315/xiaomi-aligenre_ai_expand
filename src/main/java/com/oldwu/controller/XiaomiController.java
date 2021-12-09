@@ -23,7 +23,7 @@ public class XiaomiController {
     @Autowired
     private LogService logService;
 
-    @RequestMapping("/xiaomi")
+    @RequestMapping("/test")
     public SendInfo getJson(@RequestBody String json) {
         Date startTime = new Date();
         ReceiveInfo receiveInfo = JsonUtils.getReceiveInfoFromJson(json);

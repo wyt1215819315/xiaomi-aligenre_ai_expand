@@ -22,7 +22,7 @@ public class Words {
     };
     public static final String[] REGX_NETMUSIC_MY_LOVE = {
             "播放我喜欢的",
-            "播放(歌曲|音乐)",
+            "播放(歌曲|音乐|我的歌单|我的网易云歌单)",
             "我[想要]听歌",
             "来点音乐",
     };

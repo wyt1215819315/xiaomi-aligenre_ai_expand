@@ -1,13 +1,36 @@
 ## xiaomi & aligenre ai expand
-这是一个小爱同学以及天猫精灵的技能拓展框架，
-此框架集成了小米ai以及天猫精灵官方依赖，并且提供众多实用类方便开发自定义技能
+这是一个小爱同学以及天猫精灵的技能拓展
 
-### 关于此框架
+### 关于此拓展
 主要控制器在`com.oldwu.controller`中
 
-天猫精灵专有包为`com.aligenre`
+天猫精灵专有包为`com.aligenie`
 
 小爱同学专有包为`com.xiaomi`
+
+### 配置文件
+和springboot+mybatis的配置文件格式一致，自行加上即可
+```yaml
+server:
+    port: 8061
+spring:
+    #数据库连接配置
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://         ?characterEncoding=utf-8&useSSL=false
+        username: 
+        password: 
+#mybatis的相关配置
+mybatis:
+    #mapper配置文件
+    mapper-locations: classpath:mapper/*.xml,classpath:mapper/**/*.xml
+    type-aliases-package: com.oldwu.entity
+    #开启驼峰命名
+    configuration:
+        map-underscore-to-camel-case: true
+#        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+```
+
 
 ### xiaomi ai
 小爱同学门槛比较高，官方没有提供任何java有关依赖以及资料，只提供了实体对应字段信息，如果需要使用小米ai，需要使用域名并且使用https请求
@@ -23,7 +46,13 @@
 直接调用封装好的类`XiaomiResult.sendMsg(String msg)`即可<br>**此方法只能用于发送普通TTS消息，关于调用的字段请自行查看方法**
 
 ##### 语音播放
+###### 播放单条音频链接
 直接调用封装好的类`Xiaomi Result.sendVoice(String url,String msg)`<br>
+此方法可以发送普通TTS信息以及发送url音频链接，如果仅需发送两者之间的一个，只需要另另一个参数为**null**即可
+
+###### 播放单条音频链接
+此方法常用于播放一个歌单中的歌曲，传入一组链接之后，小爱会自动下一首，按照次序播放
+直接调用封装好的类`Xiaomi Result.sendVoices(List<String> urls,String msg)`<br>
 此方法可以发送普通TTS信息以及发送url音频链接，如果仅需发送两者之间的一个，只需要另另一个参数为**null**即可
 
 

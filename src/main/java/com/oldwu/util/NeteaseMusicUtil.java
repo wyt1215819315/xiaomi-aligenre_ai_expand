@@ -3,6 +3,7 @@ package com.oldwu.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import sun.misc.BASE64Encoder;
 
@@ -225,7 +226,7 @@ public class NeteaseMusicUtil {
      * @return
      */
     public static List<String> getPlayUrls(JSONArray mList, String cookie, String csrf){
-        int num1 = 15;
+        int num1 = 10;
         Map<String, String> listMusics = getListMusics(mList, csrf, cookie);
         String musiclistsJson = listMusics.get("musiclists");
         JSONArray musicLists = JSON.parseArray(musiclistsJson);
@@ -245,6 +246,9 @@ public class NeteaseMusicUtil {
         List<String> urls = new ArrayList<>();
         for (String music : musics) {
             String playUrl = getPlayUrl(music, cookie);
+            if (StringUtils.isEmpty(playUrl)){
+                continue;
+            }
             urls.add(playUrl);
         }
         return urls;

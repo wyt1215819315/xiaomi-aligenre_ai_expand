@@ -1,4 +1,4 @@
-package com.aligenre.util;
+package com.aligenie.util;
 
 import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
