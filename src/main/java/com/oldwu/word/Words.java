@@ -65,4 +65,5 @@ public class Words {
     public static final String[] ALIGENRE_CANT_UNDERSTAND = {"我还不能理解你的意思呢","我还是个小精灵，不能理解哦","对不起，这个问题我暂时不懂呢","你问的问题太深奥了"};
     public static final String[] ALIGENRE_KEQING_CANT_UNDERSTAND = {"刻晴还不能理解你的意思呢","吾乃璃月七星，这样的问题我不屑回答","你这样子问，也太难为刻晴了","你问的问题太深奥了"};
 
+    public static final String AUTH_ERROR = "绑定账号鉴权失败";
 }

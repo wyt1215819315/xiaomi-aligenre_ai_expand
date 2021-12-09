@@ -1,5 +1,6 @@
 package com.oldwu.util;
 
+import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.oldwu.dao.SystemLogDao;
 import com.oldwu.entity.SystemLog;
 import com.xiaomi.model.receive.ReceiveInfo;
@@ -20,6 +21,11 @@ public class LogUtil {
     public static void xiaomiReceiveMsgLog(ReceiveInfo receiveInfo) {
         String query = receiveInfo.getQuery();
         logger.info("小爱收到消息：" + query);
+    }
+
+    public static void aligenieReceiveMsgLog(TaskQuery taskQuery) {
+        String query = taskQuery.getUtterance();
+        logger.info("天猫精灵收到消息：" + query);
     }
 
     public static void logWarn(String msg) {

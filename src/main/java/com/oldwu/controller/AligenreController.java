@@ -4,12 +4,15 @@ import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.alibaba.da.coin.ide.spi.trans.MetaFormat;
-import com.aligenie.util.AligenreResult;
+import com.aligenie.util.AligenieResult;
 import com.oldwu.service.BaseService;
+import com.oldwu.service.LogService;
+import com.oldwu.util.LogUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,18 +25,22 @@ public class AligenreController {
     @Autowired
     private BaseService baseService;
 
-    @RequestMapping("/")
-    public ResultModel<TaskResult> getJson(@RequestBody String json) {
+    @Autowired
+    private LogService logService;
+
+    @RequestMapping("")
+    public ResultModel<TaskResult> getJson(@RequestBody String json) throws Exception {
         Date startTime = new Date();
         //将收到的json转换为实体
         TaskQuery query = MetaFormat.parseToQuery(json);
-        String queryMessage = query.getUtterance();
-        logger.info("天猫精灵收到消息：" + queryMessage);
+        //接收日志
+        LogUtil.aligenieReceiveMsgLog(query);
+        //处理服务
         TaskResult taskResult = baseService.aligenreReply(query);
-        String sendText = taskResult.getReply();
-        Date endTime = new Date();
-        logger.info("天猫精灵发送消息：" + sendText + "  处理用时：" + (endTime.getTime() - startTime.getTime()) + "ms");
-        return AligenreResult.buildResultModel(taskResult);
+        //记录日志
+        logService.aligenieSendMsgLog(taskResult, query, startTime);
+        //构建结果
+        return AligenieResult.buildResultModel(taskResult);
 //        return Result.sendMsg(receiveInfo.getQuery());
     }
 

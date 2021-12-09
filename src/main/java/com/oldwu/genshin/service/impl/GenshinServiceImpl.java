@@ -34,7 +34,7 @@ public class GenshinServiceImpl implements GenshinService {
     public GenshinAccount queryBandGenshinAccount(String id, String type) {
         if (type.equals("xiaomi")) {
             return genshinAccountDao.queryGenshinAccount(id, null);
-        } else if (type.equals("aligenre")) {
+        } else if (type.equals("aligenie")) {
             return genshinAccountDao.queryGenshinAccount(null, id);
         } else {
             logger.error("传入类型错误！请检查代码！");

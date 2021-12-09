@@ -1,5 +1,7 @@
 package com.oldwu.service.impl;
 
+import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
+import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.oldwu.dao.SystemLogDao;
 import com.oldwu.entity.SystemLog;
 import com.oldwu.service.LogService;
@@ -12,13 +14,47 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Map;
 
 @Service
 public class LogServiceImpl implements LogService {
 
     private static final long XIAOMI_MAX_REQUEST_TIME = 2200L;
+    private static final long ALIGENIE_MAX_REQUEST_TIME = 2200L;
     @Autowired
     private SystemLogDao logDao;
+
+
+    @Override
+    @Async
+    public void aligenieSendMsgLog(TaskResult taskResult, TaskQuery taskQuery, Date startTime) {
+        Date endDate = new Date();
+        long totalTime = endDate.getTime() - startTime.getTime();
+        String logStr = "天猫精灵发送消息：";
+        logStr = "[" + totalTime + "ms] " + logStr;
+        //收到的消息
+        String queryMessage = taskQuery.getUtterance();
+        //消息回复
+        String reply = taskResult.getReply();
+        //用户信息
+        Map<String, String> requestData = taskQuery.getRequestData();
+        logStr = logStr + reply;
+        //判断时间是否超时
+        if (totalTime > ALIGENIE_MAX_REQUEST_TIME) {
+            LogUtil.logError("【请求过慢】" + logStr);
+        } else {
+            LogUtil.logInfo(logStr);
+        }
+        //将结果写入数据库
+        SystemLog systemLog = new SystemLog();
+        systemLog.setSendText(logStr);
+        systemLog.setReceiveText(queryMessage);
+        if (requestData.containsKey("userOpenId")){
+            systemLog.setUserid(requestData.get("userOpenId"));
+        }
+        systemLog.setType("aligenie");
+        logDao.insert(systemLog);
+    }
 
     @Override
     @Async

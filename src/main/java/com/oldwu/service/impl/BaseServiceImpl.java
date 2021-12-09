@@ -2,6 +2,7 @@ package com.oldwu.service.impl;
 
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
+import com.aligenie.util.AligenieResult;
 import com.oldwu.dao.SystemRecordDao;
 import com.oldwu.entity.SystemRecord;
 import com.oldwu.genshin.service.GenshinService;
@@ -82,6 +83,46 @@ public class BaseServiceImpl implements BaseService {
 
     @Override
     public TaskResult aligenreReply(TaskQuery taskQuery) {
-        return null;
+        //首先向数据库插入唯一标记值，如果已经有了就不插入
+        Map<String, String> requestData = taskQuery.getRequestData();
+        if (!requestData.containsKey("userOpenId")){
+            return AligenieResult.sendMsg(Words.AUTH_ERROR);
+        }
+        String user_id = requestData.get("userOpenId");
+        asyncService.insertOnlyId(user_id,"xiaomi");
+        String queryMessage = taskQuery.getUtterance();
+        String replyStr = "";
+        //需要判断技能刚进入时或者退出时的状态
+//        if (WordsUtil.checkWords(queryMessage, Words.ENTER_ROBOT)) {
+//            return XiaomiResult.answerQuestion("请吩咐");
+//        }
+        //首先匹配正则
+        Map<String, Object> map;
+//        if ((boolean)((map = WordsUtil.checkWordsRegx(queryMessage, Words.REGX_NETMUSIC_MY_LOVE)).get("flag"))) {
+//            //网易云播放歌单
+//            return netMusicService.getSongsInMyLove();
+//        }
+//        if ((boolean)((map = WordsUtil.checkWordsRegx(queryMessage, Words.REGX_NETMUSIC)).get("flag"))) {
+//            //网易云搜索歌曲
+//            List<String> list = (List<String>) map.get("list");
+//            if (list.size() == 0){
+//                return XiaomiResult.sendMsg(Words.NETMUSIC_CANT_UNDERSTAND);
+//            }
+//            return netMusicService.searchNetmusicMusic(list.get(0));
+//        }
+        //然后进行模糊匹配
+        if (WordsUtil.checkWords(queryMessage, Words.GENSHIN_POWER)) {
+            //原神体力查询
+            replyStr = genshinService.getDailyNote(user_id, "aligenie", "power");
+        } else if (WordsUtil.checkWords(queryMessage, Words.GENSHIN)) {
+            //原神体力等信息查询
+            replyStr = genshinService.getDailyNote(user_id, "aligenie", "all");
+        }else if (WordsUtil.checkWords(queryMessage,Words.CLOSE_COMPUTER)){
+            replyStr = uService.sendTurnOffComputer(user_id,"aligenie");
+        }
+        else {
+//            return XiaomiResult.cantUnderstand();
+        }
+        return AligenieResult.sendMsg(replyStr);
     }
 }
